@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="init-basic-forum-tables" author="dzmitry.kapachou">
+
+        <createTable tableName="discussion">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="discussion_type" type="VARCHAR(20)"/>
+        </createTable>
+
+        <createTable tableName="topic">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(254)"/>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="last_modified_at" type="TIMESTAMP"/>
+            <column name="author" type="VARCHAR(50)"/>
+            <column name="discussion_id" type="BIGINT"/>
+        </createTable>
+
+        <createTable tableName="tag">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(20)"/>
+        </createTable>
+
+        <createTable tableName="topic_tag">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="topic_id" type="BIGINT"/>
+            <column name="tag_id" type="BIGINT"/>
+        </createTable>
+
+        <createTable tableName="comment">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR(1024)"/>
+            <column name="created_at" type="timestamp"/>
+            <column name="author" type="VARCHAR(50)"/>
+            <column name="topic_id" type="BIGINT"/>
+        </createTable>
+
+    </changeSet>
+
+
+</databaseChangeLog>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="init-basic-forum-data" author="dzmitry.kapachou">
+
+        <!-- DISCUSSIONS-->
+        <insert tableName="discussion">
+            <column name="id" value="1"/>
+            <column name="description" value="Technical support"/>
+            <column name="discussion_type" value="TECH_SUPPORT"/>
+        </insert>
+        <insert tableName="discussion">
+            <column name="id" value="2"/>
+            <column name="description" value="Players conversation"/>
+            <column name="discussion_type" value="CONVERSATION"/>
+        </insert>
+        <insert tableName="discussion">
+            <column name="id" value="3"/>
+            <column name="description" value="Suggestions"/>
+            <column name="discussion_type" value="SUGGESTION"/>
+        </insert>
+        <insert tableName="discussion">
+            <column name="id" value="4"/>
+            <column name="description" value="Announcements"/>
+            <column name="discussion_type" value="ANNOUNCEMENT"/>
+        </insert>
+
+        <insert tableName="discussion">
+            <column name="id" value="4"/>
+            <column name="description" value="Announcements"/>
+            <column name="discussion_type" value="ANNOUNCEMENT"/>
+        </insert>
+
+        <!-- TOPICS-->
+        <insert tableName="topic">
+            <column name="id" value="1"/>
+            <column name="name" value="topic #1: TEST"/>
+            <column name="discussion_id" value="1"/>
+        </insert>
+        <insert tableName="topic">
+            <column name="id" value="2"/>
+            <column name="name" value="topic #2: TEST"/>
+            <column name="discussion_id" value="1"/>
+        </insert>
+        <insert tableName="topic">
+            <column name="id" value="3"/>
+            <column name="name" value="topic #3: TEST"/>
+            <column name="discussion_id" value="1"/>
+        </insert>
+
+        <!-- TAGS-->
+        <insert tableName="tag">
+            <column name="id" value="1"/>
+            <column name="name" value="bug"/>
+        </insert>
+        <insert tableName="tag">
+            <column name="id" value="2"/>
+            <column name="name" value="forgot password"/>
+        </insert>
+        <insert tableName="topic_tag">
+            <column name="id" value="1"/>
+            <column name="topic_id" value="1"/>
+            <column name="tag_id" value="1"/>
+        </insert>
+        <insert tableName="topic_tag">
+            <column name="topic_id" value="1"/>
+            <column name="tag_id" value="2"/>
+        </insert>
+
+    </changeSet>
+
+
+</databaseChangeLog>
