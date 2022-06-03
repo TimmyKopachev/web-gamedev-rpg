@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.web.gamedev.rpg.forum.bean.UserRole;
+import org.web.gamedev.rpg.forum.model.UserRole;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
         Set<UserRole> userRoles = userRepository.findRoleByUserLogin(username);
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
         //TODO: specify authorities for each role in DB!
         //https://vk.com/video-111905078_456245825?list=6602dd021816cd3936  (1h 01 minute)
         for (UserRole userRole : userRoles) {

@@ -22,10 +22,10 @@ import org.web.gamedev.rpg.forum.service.UserRepository;
 import java.util.Arrays;
 
 @Slf4j
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final int TWO_WEEKS = 86400;
-    public static final String ROLE_PREFIX = "";
+    public static final String ROLE_PREFIX = "ROLE_";
 
     @Bean("passwordEncoder")
     public PasswordEncoder encoder() {
@@ -74,14 +74,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //disableCheckingEndpoint("/h2/**", http);
         //disableCheckingEndpoint("/actuator/**", http);
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
+
         http
                 .authorizeRequests()
                 //.antMatchers("/error*").permitAll()
                 //.antMatchers("/login*").permitAll()
                 //.anyRequest().authenticated() //make all request to controllers authenticated
                 .antMatchers("/authenticated/**").authenticated()
-                //.antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                //.antMatchers("/admin/**").hasAuthority("ADMIN")
                 .and()
                 .formLogin()
                 //TODO: NEVER USE THIS SH*T FOR OVERRIDING DEFAULT VALUE BY THE SAME VALUE EVEN JUST FOR SAMPLE
@@ -113,11 +117,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //http.anonymous().authorities(Arrays.asList(new SimpleGrantedAuthority("ANONYMOUS")));
 
         http.rememberMe().key("secret-and-unique").tokenValiditySeconds(TWO_WEEKS);
-        http.httpBasic();
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
-
-
     }
 
     private void disableCheckingEndpoint(String url, HttpSecurity http) throws Exception {

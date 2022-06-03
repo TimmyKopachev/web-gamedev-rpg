@@ -1,13 +1,12 @@
 package org.web.gamedev.rpg.forum.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
-import org.web.gamedev.rpg.forum.bean.Role;
-import org.web.gamedev.rpg.forum.bean.User;
-import org.web.gamedev.rpg.forum.bean.UserRole;
+import org.web.gamedev.rpg.forum.model.Role;
+import org.web.gamedev.rpg.forum.model.User;
+import org.web.gamedev.rpg.forum.model.UserRole;
+import org.web.gamedev.rpg.forum.config.SecurityConfig;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,23 +20,23 @@ public class UserRepository {
 
     final PasswordEncoder passwordEncoder;
 
-    public Set<UserRole> findRoleByUserLogin(String login){
+    public Set<UserRole> findRoleByUserLogin(String login) {
         Set<UserRole> roles = new HashSet<>();
-        User user1 = new User(1L,"login1",passwordEncoder.encode("password"),true);
-        User user2 = new User(2L,"login2",passwordEncoder.encode("password"),true);
-        User user3 = new User(3L,"login3",passwordEncoder.encode("password"),true);
+        User user1 = new User(1L, "login1", passwordEncoder.encode("password"), true);
+        User user2 = new User(2L, "login2", passwordEncoder.encode("password"), true);
+        User user3 = new User(3L, "login3", passwordEncoder.encode("password"), true);
 
-        Role role1 =new Role(1L,"USER");
-        Role role2 =new Role(2L,"MANAGER");
-        Role role3 =new Role(3L,"ADMIN");
+        Role role1 = new Role(1L, SecurityConfig.ROLE_PREFIX + "USER");
+        Role role2 = new Role(2L, SecurityConfig.ROLE_PREFIX + "MANAGER");
+        Role role3 = new Role(3L, SecurityConfig.ROLE_PREFIX + "ADMIN");
 
-        roles.add(new UserRole(1L,user1,role1));
-        roles.add(new UserRole(2L,user2,role2));
-        roles.add(new UserRole(3L,user3,role3));
+        roles.add(new UserRole(1L, user1, role1));
+        roles.add(new UserRole(2L, user2, role2));
+        roles.add(new UserRole(3L, user3, role3));
 
-        User user4 = new User(4L,"login",passwordEncoder.encode("password"),true);
-        roles.add(new UserRole(4L,user4,role1));
-        roles.add(new UserRole(5L,user4,role2));
+        User user4 = new User(4L, "login", passwordEncoder.encode("password"), true);
+        roles.add(new UserRole(4L, user4, role1));
+        roles.add(new UserRole(5L, user4, role2));
 
         return roles.stream().filter(e -> e.getUser().getLogin().equalsIgnoreCase(login)).collect(Collectors.toSet());
     }

@@ -1,4 +1,4 @@
-package org.web.gamedev.rpg.forum.bean;
+package org.web.gamedev.rpg.forum.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

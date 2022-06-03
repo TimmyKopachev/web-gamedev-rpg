@@ -2,13 +2,11 @@ package org.web.gamedev.rpg.forum.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -57,9 +55,7 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
                 throw new InternalAuthenticationServiceException(USER_DETAIL_NOT_FOUND);
             }
             return loadedUser;
-        } catch (UsernameNotFoundException ex) {
-            throw ex;
-        } catch (InternalAuthenticationServiceException ex) {
+        } catch (UsernameNotFoundException | InternalAuthenticationServiceException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new InternalAuthenticationServiceException(ex.getMessage(), ex);
