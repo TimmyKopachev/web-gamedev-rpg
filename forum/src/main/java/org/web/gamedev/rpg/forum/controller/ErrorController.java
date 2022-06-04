@@ -2,11 +2,12 @@ package org.web.gamedev.rpg.forum.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import java.util.Date;
 public class ErrorController {
 
     @AllArgsConstructor
-    private static class ErrorMessage{
+    private static class ErrorMessage {
         HttpStatus status;
         Date date;
         String message;
@@ -43,13 +44,20 @@ public class ErrorController {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorMessage globalExceptionHandler(Exception ex, WebRequest request) {
+    public HttpEntity globalExceptionHandler(Exception ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
 
+        //return message;
+        return new HttpEntity(ex.getMessage());
+    }
+
+    @RequestMapping(value = "/error", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.PATCH})
+    public String error(@RequestParam(value = "message", required = false) String message) {
+        //TODO
         return message;
     }
 }

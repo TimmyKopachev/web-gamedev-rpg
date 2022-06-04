@@ -13,15 +13,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.web.gamedev.rpg.forum.config.filter.JwtRequestFilter;
-import org.web.gamedev.rpg.forum.service.UserRepository;
 
 import java.util.Arrays;
 
@@ -30,6 +27,9 @@ import java.util.Arrays;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final int TWO_WEEKS = 86400;
     public static final String ROLE_PREFIX = "ROLE_";
+
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
     @Qualifier("userDetailsAuthenticationProvider")
@@ -92,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/error*").permitAll()
                 .antMatchers("/login*").permitAll()
-                .antMatchers("/home").permitAll()
+                .antMatchers("/").permitAll()
                 .antMatchers("/auth").permitAll()
                 .antMatchers("/authenticated/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
@@ -105,8 +105,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutSuccessUrl("/home")
                 .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                /*
+                to check how w/o authenticationEntryPoint works go to:
+                localhost:8081/auth
+                localhost:8081/admin
+                 */
+                .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);//STATELESS
+
 
         http.httpBasic().and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
