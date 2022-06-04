@@ -98,13 +98,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                /*.formLogin()
+                .formLogin()
                 .defaultSuccessUrl("/authenticated")
                 .failureForwardUrl("/error")
                 .failureUrl("/login?error")
                 .and()
                 .logout().logoutSuccessUrl("/home")
-                .and()*/
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
