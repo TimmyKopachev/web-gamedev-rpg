@@ -56,6 +56,6 @@ public class UserService implements UserDetailsService {
             return new User(login, password, isEnabled,
                     true, true, true, authorities);
         }
-        throw new RuntimeException("Set of user roles is empty.");
+        throw new UsernameNotFoundException("Set of user roles is empty.");
     }
 }
