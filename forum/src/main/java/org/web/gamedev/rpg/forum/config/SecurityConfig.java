@@ -103,10 +103,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureForwardUrl("/error")
                 .failureUrl("/login?error")
                 .and()
-                .logout().logoutSuccessUrl("/home")
+                .logout().logoutSuccessUrl("/login")
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
+                //.authenticationEntryPoint(authenticationEntryPoint)
                 /*
                 to check how w/o authenticationEntryPoint works go to:
                 localhost:8081/auth
@@ -114,7 +114,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  */
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);//STATELESS
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);//STATELESS
 
 
         http.httpBasic().and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
