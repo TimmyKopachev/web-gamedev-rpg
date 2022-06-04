@@ -14,18 +14,30 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.web.gamedev.rpg.forum.config.filter.JwtRequestFilter;
 import org.web.gamedev.rpg.forum.service.UserRepository;
 
 import java.util.Arrays;
 
 @Slf4j
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity//(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final int TWO_WEEKS = 86400;
     public static final String ROLE_PREFIX = "ROLE_";
+
+    @Autowired
+    @Qualifier("userDetailsAuthenticationProvider")
+    private AbstractUserDetailsAuthenticationProvider userDetailsAuthenticationProvider;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+
 
     @Bean("passwordEncoder")
     public PasswordEncoder encoder() {
@@ -61,62 +73,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return defaultWebSecurityExpressionHandler;
     }
 
-    @Autowired
-    @Qualifier("userDetailsAuthenticationProvider")
-    private AbstractUserDetailsAuthenticationProvider userDetailsAuthenticationProvider;
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(userDetailsAuthenticationProvider);
+
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //disableCheckingEndpoint("/h2/**", http);
-        //disableCheckingEndpoint("/actuator/**", http);
+
+        disableCheckingEndpoint("/h2/**", http);
+        disableCheckingEndpoint("/actuator/**", http);
 
         http.csrf().disable();
         http.headers().frameOptions().disable();
-
         http
                 .authorizeRequests()
-                //.antMatchers("/error*").permitAll()
-                //.antMatchers("/login*").permitAll()
-                //.anyRequest().authenticated() //make all request to controllers authenticated
+                .antMatchers("/error*").permitAll()
+                .antMatchers("/login*").permitAll()
+                .antMatchers("/home").permitAll()
+                .antMatchers("/auth").permitAll()
                 .antMatchers("/authenticated/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                //.antMatchers("/admin/**").hasAuthority("ADMIN")
+                .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                //TODO: NEVER USE THIS SH*T FOR OVERRIDING DEFAULT VALUE BY THE SAME VALUE EVEN JUST FOR SAMPLE
-                //.loginPage("/login") //default page which can be changed here
+                /*.formLogin()
                 .defaultSuccessUrl("/authenticated")
-
                 .failureForwardUrl("/error")
                 .failureUrl("/login?error")
-
                 .and()
-                .logout().logoutSuccessUrl("/login")
-
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage("/403")
-
-
-                .and()
+                .logout().logoutSuccessUrl("/home")
+                .and()*/
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-                //check difference with option ALWAYS
+        http.httpBasic().and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-        //Usefull info: http://www.baeldung.com/spring-security-remember-me
-        //required for case anyRequest().authenticated()
-        //http.anonymous().authorities(Arrays.asList(new SimpleGrantedAuthority("ANONYMOUS")));
-
-        http.rememberMe().key("secret-and-unique").tokenValiditySeconds(TWO_WEEKS);
     }
 
     private void disableCheckingEndpoint(String url, HttpSecurity http) throws Exception {

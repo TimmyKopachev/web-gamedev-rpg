@@ -1,4 +1,4 @@
-jwt.secret: 123
+jwt.secret: reallysecretgoldkey1234567890
 
 server:
   port: 8081 #${random.int[1024,65535]}
