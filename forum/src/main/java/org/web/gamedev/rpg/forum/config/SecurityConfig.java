@@ -93,6 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         disableCheckingEndpoint("/actuator/**", http);
 
         http.csrf().disable();
+        http.httpBasic().disable();
         http.headers().frameOptions().disable();
         http
                 .authorizeRequests()
@@ -104,23 +105,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .defaultSuccessUrl("/authenticated")
-                .failureForwardUrl("/error")
-                .failureUrl("/login?error")
-                .and()
-                .logout().logoutSuccessUrl("/login")
-                .and()
-                .exceptionHandling()
-                //.authenticationEntryPoint(authenticationEntryPoint)
-                /*
-                to check how w/o authenticationEntryPoint works go to:
-                localhost:8081/auth
-                localhost:8081/admin
-                 */
-                .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);//STATELESS
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
         http.httpBasic().and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
