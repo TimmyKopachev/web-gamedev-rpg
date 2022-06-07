@@ -3,7 +3,9 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="init-basic-forum-data" author="dzmitry.kapachou">
+    <property name="date_now" value="now()" dbms="postgresql"/>
+
+    <changeSet id="init-basic-forum-data" author="dzmitry.kapachou" runOnChange="true">
 
         <!-- DISCUSSIONS-->
         <insert tableName="discussion">
@@ -37,16 +39,19 @@
         <insert tableName="topic">
             <column name="id" value="1"/>
             <column name="name" value="topic #1: TEST"/>
+            <column name="created_at" value="${date_now}"/>
             <column name="discussion_id" value="1"/>
         </insert>
         <insert tableName="topic">
             <column name="id" value="2"/>
             <column name="name" value="topic #2: TEST"/>
+            <column name="created_at" value="${date_now}"/>
             <column name="discussion_id" value="1"/>
         </insert>
         <insert tableName="topic">
             <column name="id" value="3"/>
             <column name="name" value="topic #3: TEST"/>
+            <column name="created_at" value="${date_now}"/>
             <column name="discussion_id" value="1"/>
         </insert>
 
@@ -65,8 +70,64 @@
             <column name="tag_id" value="1"/>
         </insert>
         <insert tableName="topic_tag">
-            <column name="topic_id" value="1"/>
+            <column name="topic_id" value="2"/>
             <column name="tag_id" value="2"/>
+        </insert>
+
+        <!-- TAGS-->
+        <insert tableName="comment">
+            <column name="id" value="1"/>
+            <column name="content" value="COMMENT-11111111"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="2"/>
+            <column name="content" value="COMMENT-222222222"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="3"/>
+            <column name="content" value="COMMENT-3333333"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="4"/>
+            <column name="content" value="COMMENT-444444"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="5"/>
+            <column name="content" value="COMMENT-5555555555"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="6"/>
+            <column name="content" value="COMMENT-666666666"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="7"/>
+            <column name="content" value="COMMENT-7777777777"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="2"/>
+        </insert>
+
+        <insert tableName="comment">
+            <column name="id" value="8"/>
+            <column name="content" value="COMMENT-8888800"/>
+            <column name="created_at" value="2024-02-01T22:11:24.839855Z"/>
+            <column name="topic_id" value="1"/>
         </insert>
 
     </changeSet>

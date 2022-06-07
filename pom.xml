@@ -7,8 +7,8 @@
         <module>quest-system</module>
         <module>game-engine</module>
         <module>api-gateway</module>
-        <module>discovery</module>
         <module>forum</module>
+        <module>lobby</module>
     </modules>
 
     <parent>

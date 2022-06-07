@@ -2,6 +2,7 @@ package org.web.gamedev.rpg.forum.model;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,13 +45,13 @@ public class Topic extends IdEntity {
   // @LastModifiedBy
   private String author;
 
-  @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+  @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumn(name = "topic_id")
-  private List<Comment> comments;
+  private Set<Comment> comments;
 
   @ManyToMany(
       mappedBy = "topics",
       fetch = FetchType.EAGER,
       cascade = {CascadeType.ALL})
-  private List<Tag> tags;
+  private Set<Tag> tags;
 }

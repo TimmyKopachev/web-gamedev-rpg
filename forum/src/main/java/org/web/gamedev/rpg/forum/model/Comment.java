@@ -1,17 +1,27 @@
 package org.web.gamedev.rpg.forum.model;
 
 import java.time.Instant;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
-@EqualsAndHashCode(callSuper = true)
+@ToString(exclude = {"parent", "comments"})
+@EqualsAndHashCode(
+    callSuper = true,
+    exclude = {"parent", "comments"})
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Data
@@ -27,4 +37,15 @@ public class Comment extends IdEntity {
 
   // @CreatedBy
   private String author;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "parent_id", referencedColumnName = "id")
+  private Comment parent;
+
+  @OneToMany(
+      fetch = FetchType.EAGER,
+      mappedBy = "parent",
+      cascade = CascadeType.REMOVE,
+      orphanRemoval = true)
+  private Set<Comment> comments;
 }

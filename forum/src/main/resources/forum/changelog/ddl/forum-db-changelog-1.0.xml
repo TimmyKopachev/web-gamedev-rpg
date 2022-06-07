@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="init-basic-forum-tables" author="dzmitry.kapachou">
+    <changeSet id="init-basic-forum-tables" author="dzmitry.kapachou" runOnChange="true">
 
         <createTable tableName="discussion">
             <column name="id" type="BIGINT" autoIncrement="true">
@@ -47,7 +47,12 @@
             <column name="created_at" type="timestamp"/>
             <column name="author" type="VARCHAR(50)"/>
             <column name="topic_id" type="BIGINT"/>
+            <column name="parent_id" type="BIGINT"/>
         </createTable>
+
+        <addDefaultValue columnName="topic_id"
+                         defaultValue="NULL"
+                         tableName="comment" columnDataType="BIGINT"/>
 
     </changeSet>
 

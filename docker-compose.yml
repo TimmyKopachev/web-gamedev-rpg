@@ -1,4 +1,13 @@
 version: '3.7'
 
 services:
-  rpg-game-discovery:
+
+  web-rpg-game-postgres:
+    image: "postgres:10.3"
+    container_name: "web-rpg-game-postgres"
+    environment:
+      POSTGRES_DB: "rpg-game-db"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - "5432:5432"

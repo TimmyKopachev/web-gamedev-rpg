@@ -8,14 +8,14 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.web.gamedev.rpg.forum.service.DiscussionService;
+import org.web.gamedev.rpg.forum.service.CommentRepository;
 
 @Slf4j
 @EnableJpaAuditing
 @SpringBootApplication
 public class ApplicationForumRunner implements ApplicationRunner {
 
-  @Autowired private DiscussionService discussionService;
+  @Autowired CommentRepository commentRepository;
 
   public static void main(String[] args) {
     new SpringApplicationBuilder()
@@ -26,9 +26,8 @@ public class ApplicationForumRunner implements ApplicationRunner {
 
   @Override
   public void run(ApplicationArguments args) {
-
-    log.info("----ALL DISCUSSIONS----");
-    discussionService.findAll().forEach(d -> log.info("discussion: {}", d));
-    log.info("--------");
+    System.out.println("=============");
+    commentRepository.findAllByTopicId(1L).forEach(System.out::println);
+    System.out.println("=============");
   }
 }
