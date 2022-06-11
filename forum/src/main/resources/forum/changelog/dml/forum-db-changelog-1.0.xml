@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <property name="date_now" value="now()" dbms="postgresql"/>
+    <property name="date_now" value="now()" dbms="h2"/>
 
     <changeSet id="init-basic-forum-data" author="dzmitry.kapachou" runOnChange="true">
 
@@ -74,7 +74,7 @@
             <column name="tag_id" value="2"/>
         </insert>
 
-        <!-- TAGS-->
+        <!-- COMMENTS-->
         <insert tableName="comment">
             <column name="id" value="1"/>
             <column name="content" value="COMMENT-11111111"/>
@@ -107,14 +107,14 @@
             <column name="content" value="COMMENT-5555555555"/>
             <column name="created_at" value="${date_now}"/>
             <column name="topic_id" value="1"/>
-            <column name="parent_id" value="1"/>
+            <column name="parent_id" value="4"/>
         </insert>
         <insert tableName="comment">
             <column name="id" value="6"/>
             <column name="content" value="COMMENT-666666666"/>
             <column name="created_at" value="${date_now}"/>
             <column name="topic_id" value="1"/>
-            <column name="parent_id" value="1"/>
+            <column name="parent_id" value="5"/>
         </insert>
         <insert tableName="comment">
             <column name="id" value="7"/>

@@ -5,6 +5,14 @@
 
     <changeSet id="drop-tables-before-start" author="dzmitry.kapachou">
 
+        <preConditions onFail="WARN">
+            <tableExists tableName="topic_tag"/>
+            <tableExists tableName="comment"/>
+            <tableExists tableName="discussion"/>
+            <tableExists tableName="topic"/>
+            <tableExists tableName="tag"/>
+        </preConditions>
+
         <dropTable cascadeConstraints="true" tableName="topic_tag"/>
         <dropTable cascadeConstraints="true" tableName="comment"/>
         <dropTable cascadeConstraints="true" tableName="discussion"/>

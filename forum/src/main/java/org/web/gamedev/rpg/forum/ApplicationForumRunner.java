@@ -27,7 +27,7 @@ public class ApplicationForumRunner implements ApplicationRunner {
   @Override
   public void run(ApplicationArguments args) {
     System.out.println("=============");
-    commentRepository.findAllByTopicId(1L).forEach(System.out::println);
+    commentRepository.findCommentsByTopicId().forEach(System.out::println);
     System.out.println("=============");
   }
 }
