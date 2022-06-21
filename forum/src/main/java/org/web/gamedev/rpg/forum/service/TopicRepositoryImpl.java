@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 import org.web.gamedev.rpg.forum.model.QTopic;
 import org.web.gamedev.rpg.forum.model.Topic;
-import org.web.gamedev.rpg.forum.model.dto.TopicFilter;
+import org.web.gamedev.rpg.model.filter.TopicFilter;
 
 public class TopicRepositoryImpl extends AbstractRepositoryCustom<Topic, TopicFilter>
     implements TopicRepositoryCustom {

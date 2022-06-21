@@ -1,7 +1,6 @@
 package org.web.gamedev.rpg.forum.model;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +9,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
@@ -30,6 +31,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Table(name = "topic")
 @EntityListeners(AuditingEntityListener.class)
+@NamedEntityGraph(
+    name = "graph.topic.comments",
+    attributeNodes = @NamedAttributeNode(value = "comments"))
 public class Topic extends IdEntity {
 
   private String name;
@@ -45,13 +49,13 @@ public class Topic extends IdEntity {
   // @LastModifiedBy
   private String author;
 
-  @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
   @JoinColumn(name = "topic_id")
   private Set<Comment> comments;
 
   @ManyToMany(
       mappedBy = "topics",
-      fetch = FetchType.EAGER,
+      fetch = FetchType.LAZY,
       cascade = {CascadeType.ALL})
   private Set<Tag> tags;
 }

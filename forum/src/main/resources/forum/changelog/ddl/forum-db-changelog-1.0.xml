@@ -5,12 +5,12 @@
 
     <changeSet id="init-basic-forum-tables" author="dzmitry.kapachou" runOnChange="true">
 
-        <createTable tableName="discussion">
+        <createTable tableName="section">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="VARCHAR(255)"/>
-            <column name="discussion_type" type="VARCHAR(20)"/>
+            <column name="section_type" type="VARCHAR(20)"/>
         </createTable>
 
         <createTable tableName="topic">
@@ -21,7 +21,7 @@
             <column name="created_at" type="TIMESTAMP"/>
             <column name="last_modified_at" type="TIMESTAMP"/>
             <column name="author" type="VARCHAR(50)"/>
-            <column name="discussion_id" type="BIGINT"/>
+            <column name="section_id" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="tag">

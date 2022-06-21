@@ -1,6 +1,35 @@
+server:
+  port: 8090
+
 spring:
   application:
     name: api-gateway
 
-server:
-  port: 8761
+### gateway
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        # forum mapping
+        - id: forum
+          uri: lb://forum
+          predicates:
+            - Path=/forum/**
+          filters:
+            - RewritePath=/forum/(?<path>.*), /$\{path}
+        # lobby mapping
+        - id: lobby
+          uri: lb://lobby
+          predicates:
+            - Path=/lobby/**
+          filters:
+            - RewritePath=/lobby/(?<path>.*), /$\{path}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO

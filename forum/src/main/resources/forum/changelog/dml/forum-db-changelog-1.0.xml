@@ -7,32 +7,32 @@
 
     <changeSet id="init-basic-forum-data" author="dzmitry.kapachou" runOnChange="true">
 
-        <!-- DISCUSSIONS-->
-        <insert tableName="discussion">
+        <!-- SECTION-->
+        <insert tableName="section">
             <column name="id" value="1"/>
             <column name="description" value="Technical support"/>
-            <column name="discussion_type" value="TECH_SUPPORT"/>
+            <column name="section_type" value="TECH_SUPPORT"/>
         </insert>
-        <insert tableName="discussion">
+        <insert tableName="section">
             <column name="id" value="2"/>
             <column name="description" value="Players conversation"/>
-            <column name="discussion_type" value="CONVERSATION"/>
+            <column name="section_type" value="CONVERSATION"/>
         </insert>
-        <insert tableName="discussion">
+        <insert tableName="section">
             <column name="id" value="3"/>
             <column name="description" value="Suggestions"/>
-            <column name="discussion_type" value="SUGGESTION"/>
+            <column name="section_type" value="SUGGESTION"/>
         </insert>
-        <insert tableName="discussion">
+        <insert tableName="section">
             <column name="id" value="4"/>
             <column name="description" value="Announcements"/>
-            <column name="discussion_type" value="ANNOUNCEMENT"/>
+            <column name="section_type" value="ANNOUNCEMENT"/>
         </insert>
 
-        <insert tableName="discussion">
+        <insert tableName="section">
             <column name="id" value="4"/>
             <column name="description" value="Announcements"/>
-            <column name="discussion_type" value="ANNOUNCEMENT"/>
+            <column name="section_type" value="ANNOUNCEMENT"/>
         </insert>
 
         <!-- TOPICS-->
@@ -40,19 +40,19 @@
             <column name="id" value="1"/>
             <column name="name" value="topic #1: TEST"/>
             <column name="created_at" value="${date_now}"/>
-            <column name="discussion_id" value="1"/>
+            <column name="section_id" value="1"/>
         </insert>
         <insert tableName="topic">
             <column name="id" value="2"/>
             <column name="name" value="topic #2: TEST"/>
             <column name="created_at" value="${date_now}"/>
-            <column name="discussion_id" value="1"/>
+            <column name="section_id" value="1"/>
         </insert>
         <insert tableName="topic">
             <column name="id" value="3"/>
             <column name="name" value="topic #3: TEST"/>
             <column name="created_at" value="${date_now}"/>
-            <column name="discussion_id" value="1"/>
+            <column name="section_id" value="1"/>
         </insert>
 
         <!-- TAGS-->

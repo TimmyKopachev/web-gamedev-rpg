@@ -1,10 +1,18 @@
 server:
-  port: 8081 #${random.int[1024,65535]}
+  port: 8084 #${random.int[1024,65535]}
+#  servlet:
+#    context-path: /forum
 
 spring:
   #Application
   application:
     name: forum
+  #Discovery
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+  output.ansi.enabled: ALWAYS
 
   #Liquibase
   liquibase:
@@ -24,7 +32,6 @@ h2:
     username: admin
     password:
 
-#  #JPA
 #  datasource:
 #    url: jdbc:postgresql://localhost:5432/artist-db
 #    username: postgres
@@ -37,13 +44,3 @@ h2:
 #        show_sql: false
 #        format_sql: false
 #        ddl-auto: none
-
-  #Actuator
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - "health"
-          - "info"
-          - "beans"

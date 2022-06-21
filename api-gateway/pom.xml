@@ -11,6 +11,10 @@
 
     <artifactId>api-gateway</artifactId>
 
+    <properties>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -20,7 +24,27 @@
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-ip</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 </project>

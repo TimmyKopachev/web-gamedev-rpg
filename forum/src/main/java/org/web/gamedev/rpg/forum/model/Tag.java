@@ -6,6 +6,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,7 @@ import lombok.ToString;
 @Data
 @Entity
 @Table(name = "tag")
+@NamedEntityGraph(name = "graph.tag.topics", attributeNodes = @NamedAttributeNode(value = "topics"))
 public class Tag extends IdEntity {
 
   private String name;

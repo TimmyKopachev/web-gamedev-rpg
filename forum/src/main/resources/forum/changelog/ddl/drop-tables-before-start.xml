@@ -15,7 +15,7 @@
 
         <dropTable cascadeConstraints="true" tableName="topic_tag"/>
         <dropTable cascadeConstraints="true" tableName="comment"/>
-        <dropTable cascadeConstraints="true" tableName="discussion"/>
+        <dropTable cascadeConstraints="true" tableName="section"/>
         <dropTable cascadeConstraints="true" tableName="topic"/>
         <dropTable cascadeConstraints="true" tableName="tag"/>
 

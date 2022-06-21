@@ -7,6 +7,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
@@ -22,15 +25,23 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Data
 @Entity
-@Table(name = "discussion")
-public class Discussion extends IdEntity {
+@Table(name = "section")
+@NamedEntityGraph(
+    name = "graph.section.topics.tags",
+    attributeNodes = @NamedAttributeNode(value = "topics", subgraph = "topic.tags"),
+    subgraphs = {
+      @NamedSubgraph(
+          name = "topic.tags",
+          attributeNodes = {@NamedAttributeNode("tags")})
+    })
+public class Section extends IdEntity {
 
   private String description;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "discussion_id")
-  private List<Topic> topics;
-
   @Enumerated(EnumType.STRING)
-  private DiscussionType discussionType;
+  private SectionType sectionType;
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "section_id")
+  private List<Topic> topics;
 }
