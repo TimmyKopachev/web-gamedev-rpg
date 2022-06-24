@@ -60,10 +60,10 @@
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-sql</artifactId>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>
