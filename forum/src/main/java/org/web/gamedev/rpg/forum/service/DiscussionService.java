@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.web.gamedev.rpg.forum.model.Discussion;
+import org.web.gamedev.rpg.forum.repository.DiscussionRepository;
 
 @Service
 @AllArgsConstructor

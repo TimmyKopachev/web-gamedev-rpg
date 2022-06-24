@@ -1,4 +1,4 @@
-package org.web.gamedev.rpg.forum.service;
+package org.web.gamedev.rpg.forum.repository;
 
 import static org.web.gamedev.rpg.forum.service.QuerydslFilterBuilder.AttributeFilter;
 
@@ -9,6 +9,8 @@ import java.util.Set;
 import org.web.gamedev.rpg.forum.model.QTopic;
 import org.web.gamedev.rpg.forum.model.Topic;
 import org.web.gamedev.rpg.forum.model.dto.TopicFilter;
+import org.web.gamedev.rpg.forum.service.AbstractRepositoryCustom;
+import org.web.gamedev.rpg.forum.service.QuerydslFilterBuilder;
 
 public class TopicRepositoryImpl extends AbstractRepositoryCustom<Topic, TopicFilter>
     implements TopicRepositoryCustom {

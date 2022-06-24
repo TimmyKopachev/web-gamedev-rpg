@@ -30,9 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String ROLE_PREFIX = "ROLE_";
 
     @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
-
-    @Autowired
     @Qualifier("userDetailsAuthenticationProvider")
     private AbstractUserDetailsAuthenticationProvider userDetailsAuthenticationProvider;
 
