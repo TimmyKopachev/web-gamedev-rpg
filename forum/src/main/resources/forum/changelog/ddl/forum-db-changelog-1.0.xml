@@ -52,7 +52,7 @@
 
         <createTable tableName="users">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints nullable="false"/>
+                <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="email" type="VARCHAR(50)"/>
             <column name="firstname" type="VARCHAR(100)"/>
@@ -65,9 +65,9 @@
             <column name="role_id" type="BIGINT"/>
         </createTable>
 
-        <createTable tableName="users_roles">
+        <createTable tableName="roles">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints nullable="false"/>
+                <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="VARCHAR(100)"/>
             <column name="user_id" type="BIGINT"/>
@@ -75,7 +75,7 @@
 
         <createTable tableName="jwt_token">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints nullable="false"/>
+                <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="user_id" type="BIGINT"/>
             <column name="refresh_token" type="VARCHAR(1024)"/>

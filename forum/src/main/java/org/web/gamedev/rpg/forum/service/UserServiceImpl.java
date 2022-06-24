@@ -2,7 +2,6 @@ package org.web.gamedev.rpg.forum.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,10 @@ import org.web.gamedev.rpg.forum.model.dto.UserDto;
 import org.web.gamedev.rpg.forum.model.entity.RefreshTokenEntity;
 import org.web.gamedev.rpg.forum.model.entity.RoleEntity;
 import org.web.gamedev.rpg.forum.model.entity.UserEntity;
-import org.web.gamedev.rpg.forum.model.payload.*;
+import org.web.gamedev.rpg.forum.model.payload.CustomUserDetails;
+import org.web.gamedev.rpg.forum.model.payload.MessageResponse;
+import org.web.gamedev.rpg.forum.model.payload.TokenRefreshResponse;
+import org.web.gamedev.rpg.forum.model.payload.UserResponseDto;
 import org.web.gamedev.rpg.forum.repository.RoleRepository;
 import org.web.gamedev.rpg.forum.repository.UserRepository;
 
@@ -32,10 +34,8 @@ public class UserServiceImpl implements UserService {
     private final RefreshTokenService refreshTokenService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final UserDetailsMapper userDetailsMapper;
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
-    private final UserMapper userMapper;
     private static final String ADMIN = "ROLE_ADMIN";
     private static final String USER = "ROLE_USER";
 
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     private UserResponseDto saveUser(UserDto userDto, boolean isAdmin) {
         try {
-            UserEntity userEntity = userMapper.getEntityFromUserDto(userDto);
+            UserEntity userEntity = UserMapper.INSTANCE.getEntityFromUserDto(userDto);
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
             Set<RoleEntity> roles = new HashSet<>();
             roles.add(roleRepository.findByName(USER));
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
             UserResponseDto response = new UserResponseDto();
             response.setUsername(userDto.getUsername());
             response.setRefreshToken(refreshTokenService.createRefreshToken(savedUserEntity.getId()).getToken());
-            response.setToken(jwtTokenUtil.generateToken(userDetailsMapper.getUserDetailsFromUserEntity(savedUserEntity)));
+            response.setToken(jwtTokenUtil.generateToken(UserDetailsMapper.INSTANCE.getUserDetailsFromUserEntity(savedUserEntity)));
             return response;
         } catch (Exception ex) {
             log.error("UserServiceImpl.saveUser() ", ex);
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> user = userRepository.findByUsername(userDto.getUsername());
         if (user.isPresent() && passwordEncoder.matches(userDto.getPassword(), user.get().getPassword())) {
             final RefreshTokenEntity refreshTokenEntity = refreshTokenService.createRefreshToken(user.get().getId());
-            String token = jwtTokenUtil.generateToken(userDetailsMapper.getUserDetailsFromUserEntity(userMapper.getEntityFromUserDto(userDto)));
+            String token = jwtTokenUtil.generateToken(UserDetailsMapper.INSTANCE.getUserDetailsFromUserEntity(UserMapper.INSTANCE.getEntityFromUserDto(userDto)));
             UserResponseDto responseDto = new UserResponseDto();
             responseDto.setUsername(user.get().getUsername());
             responseDto.setRefreshToken(refreshTokenEntity.getToken());
@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Long userId) {
-        return userMapper.getUserDtoFromUserEntity(userRepository.getById(userId));
+        return UserMapper.INSTANCE.getUserDtoFromUserEntity(userRepository.getById(userId));
     }
 
     @Override
@@ -133,6 +133,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsers() {
-        return userMapper.getUserDtoListFromUserEntityList(userRepository.findAll());
+        return UserMapper.INSTANCE.getUserDtoListFromUserEntityList(userRepository.findAll());
     }
 }
