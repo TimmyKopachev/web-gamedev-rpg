@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.web.gamedev.rpg.forum.model.entity.RoleEntity;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,6 +27,7 @@ public class UserDto {
     @JsonProperty("user_name")
     private String username;
     private String password;
+    private Set<RoleEntity> roles;
 
     public UserDto(String username, String password) {
         this.username = username;

@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
+    private final UserDetailsMapper userDetailsMapper;
     //private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -30,7 +31,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             log.error("CustomUserDetailsService.loadUserByUsername() user not found");
             return new UsernameNotFoundException("User not found");
         });
-        CustomUserDetails userDetails = UserDetailsMapper.INSTANCE.getUserDetailsFromUserEntity(userEntity);
+        CustomUserDetails userDetails = userDetailsMapper.getUserDetailsFromUserEntity(userEntity);
         List<GrantedAuthority> authorities = userEntity.getRoles().stream().map(role ->
                 new SimpleGrantedAuthority(role.getName())
         ).collect(Collectors.toList());

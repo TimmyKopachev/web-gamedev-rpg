@@ -2,17 +2,17 @@ package org.web.gamedev.rpg.forum.model.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.web.gamedev.rpg.forum.model.entity.UserEntity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.Instant;
 
-@Data
-@Entity(name = "jwt_token")
 @NoArgsConstructor
+@Data
+@Entity
+@Table(name = "jwt_token")
 public class RefreshTokenEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -20,8 +20,8 @@ public class RefreshTokenEntity {
     @Column(name = "refresh_token", nullable = false, unique = true)
     private String token;
     @Column(name = "issued_date",nullable = false)
-    private LocalDate issuedDate;
+    private Instant issuedDate;
     @Column(name = "expiration_date",nullable = false)
-    private LocalDate expirationDate;
+    private Instant expirationDate;
     // Instant //LocalDate //Date
 }

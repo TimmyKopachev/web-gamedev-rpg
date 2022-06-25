@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.web.gamedev.rpg.forum.model.payload.CustomUserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
@@ -70,13 +72,9 @@ public class JwtTokenUtil {
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject, String userId) {
-        Date issuedDate = Date.from(LocalDate.now().atStartOfDay()
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
-        Date expiredDate = Date.from(LocalDate.now()
-                .plus(TOKEN_EXPIRATION_IN_MINUTES, ChronoUnit.MINUTES)
-                .atStartOfDay(ZoneId.systemDefault())
-                .toInstant());
+        Date issuedDate = Date.from(LocalDateTime.now()
+                .toInstant(ZoneOffset.UTC));
+        Date expiredDate = Date.from(LocalDateTime.now().plusMinutes(TOKEN_EXPIRATION_IN_MINUTES).toInstant(ZoneOffset.UTC));
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)

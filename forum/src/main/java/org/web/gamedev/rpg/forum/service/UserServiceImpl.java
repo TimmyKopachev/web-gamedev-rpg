@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final JwtTokenUtil jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
+    private final UserDetailsMapper userDetailsMapper;
     private static final String ADMIN = "ROLE_ADMIN";
     private static final String USER = "ROLE_USER";
 
@@ -50,9 +52,10 @@ public class UserServiceImpl implements UserService {
         return saveUser(userDto, false);
     }
 
+    @Transactional
     private UserResponseDto saveUser(UserDto userDto, boolean isAdmin) {
         try {
-            UserEntity userEntity = UserMapper.INSTANCE.getEntityFromUserDto(userDto);
+            UserEntity userEntity = userMapper.getEntityFromUserDto(userDto);
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
             Set<RoleEntity> roles = new HashSet<>();
             roles.add(roleRepository.findByName(USER));
@@ -66,7 +69,7 @@ public class UserServiceImpl implements UserService {
             UserResponseDto response = new UserResponseDto();
             response.setUsername(userDto.getUsername());
             response.setRefreshToken(refreshTokenService.createRefreshToken(savedUserEntity.getId()).getToken());
-            response.setToken(jwtTokenUtil.generateToken(UserDetailsMapper.INSTANCE.getUserDetailsFromUserEntity(savedUserEntity)));
+            response.setToken(jwtTokenUtil.generateToken(userDetailsMapper.getUserDetailsFromUserEntity(savedUserEntity)));
             return response;
         } catch (Exception ex) {
             log.error("UserServiceImpl.saveUser() ", ex);
@@ -81,7 +84,7 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> user = userRepository.findByUsername(userDto.getUsername());
         if (user.isPresent() && passwordEncoder.matches(userDto.getPassword(), user.get().getPassword())) {
             final RefreshTokenEntity refreshTokenEntity = refreshTokenService.createRefreshToken(user.get().getId());
-            String token = jwtTokenUtil.generateToken(UserDetailsMapper.INSTANCE.getUserDetailsFromUserEntity(UserMapper.INSTANCE.getEntityFromUserDto(userDto)));
+            String token = jwtTokenUtil.generateToken(userDetailsMapper.getUserDetailsFromUserEntity(user.get()));
             UserResponseDto responseDto = new UserResponseDto();
             responseDto.setUsername(user.get().getUsername());
             responseDto.setRefreshToken(refreshTokenEntity.getToken());
@@ -123,7 +126,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Long userId) {
-        return UserMapper.INSTANCE.getUserDtoFromUserEntity(userRepository.getById(userId));
+        return userMapper.getUserDtoFromUserEntity(userRepository.getById(userId));
     }
 
     @Override
@@ -133,6 +136,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsers() {
-        return UserMapper.INSTANCE.getUserDtoListFromUserEntityList(userRepository.findAll());
+        return userMapper.getUserDtoListFromUserEntityList(userRepository.findAll());
     }
 }

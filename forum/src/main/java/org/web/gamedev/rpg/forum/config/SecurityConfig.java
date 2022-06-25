@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.web.gamedev.rpg.forum.config.filter.JwtRequestFilter;
@@ -86,19 +85,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        disableCheckingEndpoint("/h2/**", http);
+        disableCheckingEndpoint("/h2-console/**", http);
         disableCheckingEndpoint("/actuator/**", http);
+
 
         http.csrf().disable();
         http.httpBasic().disable();
         http.headers().frameOptions().disable();
         http
                 .authorizeRequests()
+                //.antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/error*").permitAll()
                 .antMatchers("/login*").permitAll()
                 .antMatchers("/").permitAll()
-                .antMatchers("/auth").permitAll()
+                .antMatchers("/auth").permitAll() //?
+                .antMatchers("/sign-in").permitAll()
+                .antMatchers("/sign-up").permitAll()
                 .antMatchers("/authenticated/**").authenticated()
+                .antMatchers("/sign-out/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

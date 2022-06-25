@@ -6,8 +6,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.web.gamedev.rpg.forum.mapper.UserDetailsMapper;
-import org.web.gamedev.rpg.forum.model.dto.UserDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,13 +13,6 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class CustomSecurityContextHolder {
-
-    public static UserDto getCurrentUser() {
-        CustomUserDetails customUserDetails =
-                (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return UserDetailsMapper.INSTANCE.getUserDtoFromUserDetails(customUserDetails);
-    }
-
     public static Long getCurrentUserId() {
         CustomUserDetails userDetails =
                 (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

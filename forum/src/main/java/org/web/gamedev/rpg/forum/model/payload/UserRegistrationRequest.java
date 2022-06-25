@@ -2,8 +2,10 @@ package org.web.gamedev.rpg.forum.model.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class UserRegistrationRequest {
     private String email;

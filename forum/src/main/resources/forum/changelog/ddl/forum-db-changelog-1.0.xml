@@ -52,25 +52,32 @@
 
         <createTable tableName="users">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints nullable="false"/> <!-- primaryKey="true" -->
             </column>
             <column name="email" type="VARCHAR(50)"/>
             <column name="firstname" type="VARCHAR(100)"/>
             <column name="lastname" type="VARCHAR(100)"/>
+            <column name="phone_number" type="VARCHAR(50)"/>
             <column name="username" type="VARCHAR(100)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="phone_number" type="VARCHAR(50)"/>
-            <column name="password" type="VARCHAR(50)"/>
+            <column name="password" type="VARCHAR(1000)"/>
             <column name="role_id" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="roles">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints nullable="false"/> <!-- primaryKey="true" -->
             </column>
             <column name="name" type="VARCHAR(100)"/>
+        </createTable>
+
+        <createTable tableName="users_roles">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false"/>
+            </column>
             <column name="user_id" type="BIGINT"/>
+            <column name="role_id" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="jwt_token">
@@ -82,6 +89,15 @@
             <column name="issued_date" type="timestamp"/>
             <column name="expiration_date" type="timestamp"/>
         </createTable>
+        <!--
+            @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private UserEntity user;
+    @Column(name = "refresh_token", nullable = false, unique = true)
+    private String token;
+    @Column(name = "issued_date",nullable = false)
+    private LocalDate issuedDate;
+    @Column(name = "expiration_date",nullable = false)
+        -->
 
     </changeSet>
 

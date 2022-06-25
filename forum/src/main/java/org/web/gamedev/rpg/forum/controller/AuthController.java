@@ -19,6 +19,8 @@ import org.web.gamedev.rpg.forum.model.payload.*;
 import org.web.gamedev.rpg.forum.service.RefreshTokenService;
 import org.web.gamedev.rpg.forum.service.UserService;
 
+import java.util.HashSet;
+
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -33,34 +35,13 @@ public class AuthController {
 
     private final UserService userService;
 
-
-    /*@PostMapping("/auth")
-    public ResponseEntity<JwtResponse> createAuthToken(@RequestBody JwtRequest authRequest) {
-        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("Authentication All       ####: {}", currentAuthentication);
-        log.info("Authentication Name      ####: {}", currentAuthentication.getName());
-        log.info("Authentication Principal ####: {}", currentAuthentication.getPrincipal());
-
-        final CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(authRequest.getUsername());
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
-        final RefreshTokenEntity refreshTokenEntity = refreshTokenService.createRefreshToken(userDetails.getId());
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshTokenEntity.getToken(), userDetails.getId(), userDetails.getUsername(), userDetails.getRoleList()));
-    }*/
-
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestBody UserRegistrationRequest request) {
-        return ResponseEntity.ok().body(userService.signUp(new UserDto(null, request.getEmail(), request.getFirstName(), request.getLastName(), request.getPhoneNumber(), request.getUsername(), request.getPassword())));
+        return ResponseEntity.ok().body(userService.signUp(new UserDto(null, request.getEmail(), request.getFirstName(), request.getLastName(), request.getPhoneNumber(), request.getUsername(), request.getPassword(), new HashSet<>())));
     }
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> signIn(@RequestBody LoginRequest loginRequest) {
-        //Authentication authentication = authenticationManager
-        //.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        //SecurityContextHolder.getContext().setAuthentication(authentication);
-        //CustomUserDetails userDetails = CustomSecurityContextHolder.getCurrentCustomUserDetails();
-        //new JwtResponse(jwt, refreshTokenEntity.getToken(), userDetails.getId(), userDetails.getUsername(), userDetails.getRoleList())
-        //final String jwt = jwtTokenUtil.generateToken(userDetails);
-        //final RefreshTokenEntity refreshTokenEntity = refreshTokenService.createRefreshToken(userDetails.getId());
         return ResponseEntity.ok().body(userService.signIn(new UserDto(loginRequest.getUsername(), loginRequest.getPassword())));
     }
 

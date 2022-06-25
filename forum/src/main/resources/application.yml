@@ -1,8 +1,17 @@
 jwt.secret: reallysecretgoldkey12345678901111111111111111111111111111111111111111111111111111111111111111111111111111111
 jwt.refreshExpirationMs: 3600000 #1000 * 60 * 60
 
+
 server:
+  contextPath: /
   port: 8081 #${random.int[1024,65535]}
+
+#logging:
+  #level:
+    #org:
+      #hibernate:
+        #type: trace
+        #stat: debug
 
 spring:
   #Application
@@ -18,24 +27,27 @@ spring:
   h2:
     console:
       enable: true
-      path: /h2
+      path: /h2-console
       settings:
         trace: true
         web-allow-others: true
-
   #JPA
   datasource:
     url: jdbc:h2:mem:game-rpg-db;DB_CLOSE_DELAY=-1
     username: admin
-    password:
+    password: 
+    platform: h2 #added
 
   jpa:
     open-in-view: false
     properties:
       hibernate:
-        show_sql: false
-        format_sql: false
-        ddl-auto: none
+        show_sql: true #false
+        format_sql: true #false
+        ddl-auto: update #none
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        dialect: org.hibernate.dialect.H2Dialect
+        generate_statistics: true
 
   #Actuator
 management:

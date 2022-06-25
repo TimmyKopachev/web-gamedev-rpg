@@ -10,8 +10,7 @@ import org.web.gamedev.rpg.forum.repository.RefreshTokenRepository;
 import org.web.gamedev.rpg.forum.repository.UserRepository;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.Date;
 import java.util.Optional;
 
@@ -37,21 +36,22 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByToken(token);
     }
 
+    @Transactional
     public RefreshTokenEntity createRefreshToken(Long userId) {
-        LocalDate issuedDate = LocalDate.now();
-        LocalDate expiredDate = LocalDate.now().plusDays(REFRESH_TOKEN_EXPIRATION_IN_DAYS);
+        Instant issuedDate = LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        Instant expiredDate = LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRATION_IN_DAYS).toInstant(ZoneOffset.UTC);
         RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity();
         refreshTokenEntity.setUser(userRepository.findById(userId).get());
         refreshTokenRepository.deleteByUserId(userId);
         refreshTokenEntity.setIssuedDate(issuedDate);
         refreshTokenEntity.setExpirationDate(expiredDate);
-        refreshTokenEntity.setToken(jwtTokenUtil.generateRefreshToken(Date.from(issuedDate.atStartOfDay().toInstant(ZoneOffset.UTC)), Date.from(expiredDate.atStartOfDay().toInstant(ZoneOffset.UTC)), SUBJECT_AUTH_REFRESH_TOKEN, userId.toString()));
+        refreshTokenEntity.setToken(jwtTokenUtil.generateRefreshToken(Date.from(issuedDate), Date.from(expiredDate), SUBJECT_AUTH_REFRESH_TOKEN, userId.toString()));
         refreshTokenEntity = refreshTokenRepository.save(refreshTokenEntity);
         return refreshTokenEntity;
     }
 
     public RefreshTokenEntity verifyExpiration(RefreshTokenEntity token) {
-        if (token.getExpirationDate().isBefore(LocalDate.now())) {
+        if (token.getExpirationDate().isBefore(new Date().toInstant())) {
             throw new TokenRefreshException(token.getToken(), TokenRefreshException.MESSAGE_REFRESH_TOKEN_EXPIRED);
         }
         return token;

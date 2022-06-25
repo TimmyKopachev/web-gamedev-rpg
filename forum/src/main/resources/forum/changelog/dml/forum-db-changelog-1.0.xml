@@ -69,6 +69,38 @@
             <column name="tag_id" value="2"/>
         </insert>
 
+        <insert tableName="topic_tag">
+            <column name="topic_id" value="1"/>
+            <column name="tag_id" value="2"/>
+        </insert>
+
+        <!-- USER && ROLES -->
+        <!--<insert tableName="users">
+            <column name="id" value="1"/>
+            <column name="email" value="vik.kopachev@gmail.com"/>
+            <column name="firstname" value="Viktar"/>
+            <column name="lastname" value="Kapachou"/>
+            <column name="phone_number" value="+375447292685"/>
+            <column name="username" value="admin"/>
+            <column name="password" value="$2a$10$GTphgC5RW2w6etWh1O2nSurZfDd.YVmIysXdp0lyoroUvQOFNVX7e"/>&lt;!&ndash; password &ndash;&gt;
+            <column name="role_id" value="1"/>
+        </insert>
+
+        <insert tableName="roles">
+            <column name="id" value="1"/>
+            <column name="name" value="ROLE_ADMIN"/>
+            <column name="user_id" value="1"/>
+        </insert>-->
+
+        <insert tableName="roles">
+            <column name="name" value="ROLE_ADMIN"/>
+        </insert>
+
+        <insert tableName="roles">
+            <column name="name" value="ROLE_USER"/>
+        </insert>
+
+
     </changeSet>
 
 

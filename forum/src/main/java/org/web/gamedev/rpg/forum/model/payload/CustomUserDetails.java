@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.web.gamedev.rpg.forum.model.entity.RoleEntity;
 
@@ -63,8 +64,12 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public List<String> getRoleList() {
+        /*List<GrantedAuthority> authorities = userEntity.getRoles().stream().map(role ->
+                new SimpleGrantedAuthority(role.getName())
+        ).collect(Collectors.toList());
         return authorities.stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+        return roles.stream().map(RoleEntity::getName).collect(Collectors.toList());
     }
 }
