@@ -1,14 +1,15 @@
 package org.web.gamedev.rpg.forum.service;
 
-import static org.web.gamedev.rpg.forum.service.QuerydslFilterBuilder.AttributeFilter;
-
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import java.util.List;
-import java.util.Set;
 import org.web.gamedev.rpg.forum.model.QTopic;
 import org.web.gamedev.rpg.forum.model.Topic;
 import org.web.gamedev.rpg.model.filter.TopicFilter;
+
+import java.util.List;
+import java.util.Set;
+
+import static org.web.gamedev.rpg.forum.service.QuerydslFilterBuilder.AttributeFilter;
 
 public class TopicRepositoryImpl extends AbstractRepositoryCustom<Topic, TopicFilter>
     implements TopicRepositoryCustom {
