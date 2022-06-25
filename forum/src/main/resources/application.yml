@@ -1,12 +1,26 @@
+jwt.secret: reallysecretgoldkey12345678901111111111111111111111111111111111111111111111111111111111111111111111111111111
+jwt.refreshExpirationMs: 3600000 #1000 * 60 * 60
+
+
 server:
+  contextPath: /
   port: 8084 #${random.int[1024,65535]}
 #  servlet:
 #    context-path: /forum
+
+#logging:
+  #level:
+    #org:
+      #hibernate:
+        #type: trace
+        #stat: debug
 
 spring:
   #Application
   application:
     name: forum
+  main:
+    allow-bean-definition-overriding: true
   #Discovery
   cloud:
     consul:
@@ -17,20 +31,21 @@ spring:
   #Liquibase
   liquibase:
     change-log: ${LIQUIBASE_CHANGE_LOG:classpath:forum-service-db-changelog.xml}
+    #classpath:/forum-service-db-changelog.xml:
 
   h2:
     console:
       enable: true
-      path: /h2
+      path: /h2-console
       settings:
         trace: true
         web-allow-others: true
-
   #JPA
   datasource:
     url: jdbc:h2:mem:game-rpg-db;DB_CLOSE_DELAY=-1
     username: admin
     password:
+    platform: h2 #added
 
 #  datasource:
 #    url: jdbc:postgresql://localhost:5432/artist-db
