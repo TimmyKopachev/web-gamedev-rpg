@@ -1,4 +1,4 @@
-package org.web.gamedev.rpg.forum.model.dto;
+package org.web.gamedev.rpg.forum.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.web.gamedev.rpg.forum.model.entity.RoleEntity;
 
 import java.util.Set;
 

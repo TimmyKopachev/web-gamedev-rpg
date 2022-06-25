@@ -1,6 +1,6 @@
 package org.web.gamedev.rpg.forum.service;
 
-import org.web.gamedev.rpg.forum.model.dto.UserDto;
+import org.web.gamedev.rpg.forum.model.entity.UserDto;
 import org.web.gamedev.rpg.forum.model.payload.CustomUserDetails;
 import org.web.gamedev.rpg.forum.model.payload.MessageResponse;
 import org.web.gamedev.rpg.forum.model.payload.TokenRefreshResponse;

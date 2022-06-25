@@ -1,4 +1,4 @@
-package org.web.gamedev.rpg.forum.repository;
+package org.web.gamedev.rpg.forum.service;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

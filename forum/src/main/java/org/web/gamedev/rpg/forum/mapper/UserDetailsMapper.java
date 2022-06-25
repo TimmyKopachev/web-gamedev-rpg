@@ -1,7 +1,7 @@
 package org.web.gamedev.rpg.forum.mapper;
 
 import org.mapstruct.Mapper;
-import org.web.gamedev.rpg.forum.model.dto.UserDto;
+import org.web.gamedev.rpg.forum.model.entity.UserDto;
 import org.web.gamedev.rpg.forum.model.entity.UserEntity;
 import org.web.gamedev.rpg.forum.model.payload.CustomUserDetails;
 

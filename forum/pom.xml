@@ -95,12 +95,7 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok-mapstruct-binding</artifactId>
-            <version>${lombok.mapstruct.binding}</version>
+            <version>${mapstruct.version}</version>
         </dependency>
     </dependencies>
 
@@ -123,7 +118,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
         </dependency>-->
-    </dependencies>
 
     <build>
         <plugins>
