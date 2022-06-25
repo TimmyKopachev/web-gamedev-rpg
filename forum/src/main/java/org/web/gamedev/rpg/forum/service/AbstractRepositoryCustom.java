@@ -6,7 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.web.gamedev.rpg.forum.model.IdEntity;
-import org.web.gamedev.rpg.forum.model.dto.Filter;
+import org.web.gamedev.rpg.model.filter.Filter;
 
 public abstract class AbstractRepositoryCustom<E extends IdEntity, F extends Filter> {
 

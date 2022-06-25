@@ -1,4 +1,4 @@
-package org.web.gamedev.rpg.forum.model.dto;
+package org.web.gamedev.rpg.model.filter;
 
 import lombok.Data;
 

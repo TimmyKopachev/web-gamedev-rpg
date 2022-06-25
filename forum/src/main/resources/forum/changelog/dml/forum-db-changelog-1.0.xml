@@ -3,51 +3,56 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="init-basic-forum-data" author="dzmitry.kapachou">
+    <property name="date_now" value="now()" dbms="h2"/>
 
-        <!-- DISCUSSIONS-->
-        <insert tableName="discussion">
+    <changeSet id="init-basic-forum-data" author="dzmitry.kapachou" runOnChange="true">
+
+        <!-- SECTION-->
+        <insert tableName="section">
             <column name="id" value="1"/>
             <column name="description" value="Technical support"/>
-            <column name="discussion_type" value="TECH_SUPPORT"/>
+            <column name="section_type" value="TECH_SUPPORT"/>
         </insert>
-        <insert tableName="discussion">
+        <insert tableName="section">
             <column name="id" value="2"/>
             <column name="description" value="Players conversation"/>
-            <column name="discussion_type" value="CONVERSATION"/>
+            <column name="section_type" value="CONVERSATION"/>
         </insert>
-        <insert tableName="discussion">
+        <insert tableName="section">
             <column name="id" value="3"/>
             <column name="description" value="Suggestions"/>
-            <column name="discussion_type" value="SUGGESTION"/>
+            <column name="section_type" value="SUGGESTION"/>
         </insert>
-        <insert tableName="discussion">
+        <insert tableName="section">
             <column name="id" value="4"/>
             <column name="description" value="Announcements"/>
-            <column name="discussion_type" value="ANNOUNCEMENT"/>
+            <column name="section_type" value="ANNOUNCEMENT"/>
         </insert>
 
-        <insert tableName="discussion">
+        <insert tableName="section">
             <column name="id" value="4"/>
             <column name="description" value="Announcements"/>
-            <column name="discussion_type" value="ANNOUNCEMENT"/>
+            <column name="section_type" value="ANNOUNCEMENT"/>
         </insert>
 
         <!-- TOPICS-->
         <insert tableName="topic">
             <column name="id" value="1"/>
             <column name="name" value="topic #1: TEST"/>
-            <column name="discussion_id" value="1"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="section_id" value="1"/>
         </insert>
         <insert tableName="topic">
             <column name="id" value="2"/>
             <column name="name" value="topic #2: TEST"/>
-            <column name="discussion_id" value="1"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="section_id" value="1"/>
         </insert>
         <insert tableName="topic">
             <column name="id" value="3"/>
             <column name="name" value="topic #3: TEST"/>
-            <column name="discussion_id" value="1"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="section_id" value="1"/>
         </insert>
 
         <!-- TAGS-->
@@ -65,41 +70,65 @@
             <column name="tag_id" value="1"/>
         </insert>
         <insert tableName="topic_tag">
-            <column name="topic_id" value="1"/>
+            <column name="topic_id" value="2"/>
             <column name="tag_id" value="2"/>
         </insert>
 
-        <insert tableName="topic_tag">
+        <!-- COMMENTS-->
+        <insert tableName="comment">
+            <column name="id" value="1"/>
+            <column name="content" value="COMMENT-11111111"/>
+            <column name="created_at" value="${date_now}"/>
             <column name="topic_id" value="1"/>
-            <column name="tag_id" value="2"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="2"/>
+            <column name="content" value="COMMENT-222222222"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="3"/>
+            <column name="content" value="COMMENT-3333333"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="4"/>
+            <column name="content" value="COMMENT-444444"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="5"/>
+            <column name="content" value="COMMENT-5555555555"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+            <column name="parent_id" value="4"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="6"/>
+            <column name="content" value="COMMENT-666666666"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="1"/>
+            <column name="parent_id" value="5"/>
+        </insert>
+        <insert tableName="comment">
+            <column name="id" value="7"/>
+            <column name="content" value="COMMENT-7777777777"/>
+            <column name="created_at" value="${date_now}"/>
+            <column name="topic_id" value="2"/>
         </insert>
 
-        <!-- USER && ROLES -->
-        <!--<insert tableName="users">
-            <column name="id" value="1"/>
-            <column name="email" value="vik.kopachev@gmail.com"/>
-            <column name="firstname" value="Viktar"/>
-            <column name="lastname" value="Kapachou"/>
-            <column name="phone_number" value="+375447292685"/>
-            <column name="username" value="admin"/>
-            <column name="password" value="$2a$10$GTphgC5RW2w6etWh1O2nSurZfDd.YVmIysXdp0lyoroUvQOFNVX7e"/>&lt;!&ndash; password &ndash;&gt;
-            <column name="role_id" value="1"/>
+        <insert tableName="comment">
+            <column name="id" value="8"/>
+            <column name="content" value="COMMENT-8888800"/>
+            <column name="created_at" value="2024-02-01T22:11:24.839855Z"/>
+            <column name="topic_id" value="1"/>
         </insert>
-
-        <insert tableName="roles">
-            <column name="id" value="1"/>
-            <column name="name" value="ROLE_ADMIN"/>
-            <column name="user_id" value="1"/>
-        </insert>-->
-
-        <insert tableName="roles">
-            <column name="name" value="ROLE_ADMIN"/>
-        </insert>
-
-        <insert tableName="roles">
-            <column name="name" value="ROLE_USER"/>
-        </insert>
-
 
     </changeSet>
 

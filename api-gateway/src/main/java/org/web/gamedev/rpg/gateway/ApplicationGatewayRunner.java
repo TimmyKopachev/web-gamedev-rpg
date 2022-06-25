@@ -34,11 +34,8 @@ public class ApplicationGatewayRunner implements ApplicationRunner {
 
     String payload = "Hello world";
 
-    while (Boolean.TRUE) {
-      udpSendingMessageHandler.handleMessage(MessageBuilder.withPayload(payload).build());
-      log.info("---------------------------------------");
-      tcpSendingMessageHandler.start();
-      Thread.sleep(1000);
-    }
+    udpSendingMessageHandler.handleMessage(MessageBuilder.withPayload(payload).build());
+    log.info("---------------------------------------");
+    tcpSendingMessageHandler.start();
   }
 }

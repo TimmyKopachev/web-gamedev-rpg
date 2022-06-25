@@ -1,4 +1,33 @@
 version: '3.7'
 
 services:
-  rpg-game-discovery:
+
+#  web-rpg-game-postgres:
+#    image: "postgres:latest"
+#    restart: always
+#    container_name: "web-rpg-game-postgres"
+#    environment:
+#      POSTGRES_DB: "rpg-game-db"
+#      POSTGRES_USER: "postgres"
+#      POSTGRES_PASSWORD: "postgres"
+#    ports:
+#      - "5432:5432"
+
+#  web-game-rabbitmq:
+#    image: rabbitmq:management
+#    container_name: 'web-game-rabbitmq'
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
+
+
+  game-consul-discovery:
+    image: consul:1.8.4
+    container_name: game-consul-discovery
+    command: consul agent -dev -client 0.0.0.0
+    restart: always
+    ports:
+      - "8500:8500"
+
+
+

@@ -3,14 +3,14 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="init-basic-forum-tables" author="dzmitry.kapachou">
+    <changeSet id="init-basic-forum-tables" author="dzmitry.kapachou" runOnChange="true">
 
-        <createTable tableName="discussion">
+        <createTable tableName="section">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="VARCHAR(255)"/>
-            <column name="discussion_type" type="VARCHAR(20)"/>
+            <column name="section_type" type="VARCHAR(20)"/>
         </createTable>
 
         <createTable tableName="topic">
@@ -21,7 +21,7 @@
             <column name="created_at" type="TIMESTAMP"/>
             <column name="last_modified_at" type="TIMESTAMP"/>
             <column name="author" type="VARCHAR(50)"/>
-            <column name="discussion_id" type="BIGINT"/>
+            <column name="section_id" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="tag">
@@ -47,7 +47,12 @@
             <column name="created_at" type="timestamp"/>
             <column name="author" type="VARCHAR(50)"/>
             <column name="topic_id" type="BIGINT"/>
+            <column name="parent_id" type="BIGINT"/>
         </createTable>
+
+        <addDefaultValue columnName="topic_id"
+                         defaultValue="NULL"
+                         tableName="comment" columnDataType="BIGINT"/>
 
 
         <createTable tableName="users">
@@ -89,16 +94,6 @@
             <column name="issued_date" type="timestamp"/>
             <column name="expiration_date" type="timestamp"/>
         </createTable>
-        <!--
-            @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserEntity user;
-    @Column(name = "refresh_token", nullable = false, unique = true)
-    private String token;
-    @Column(name = "issued_date",nullable = false)
-    private LocalDate issuedDate;
-    @Column(name = "expiration_date",nullable = false)
-        -->
-
     </changeSet>
 
 
