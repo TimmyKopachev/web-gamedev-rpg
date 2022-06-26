@@ -13,13 +13,12 @@ services:
 #    ports:
 #      - "5432:5432"
 
-#  web-game-rabbitmq:
-#    image: rabbitmq:management
-#    container_name: 'web-game-rabbitmq'
-#    ports:
-#      - "5672:5672"
-#      - "15672:15672"
-
+  web-game-rabbitmq:
+    image: rabbitmq:management
+    container_name: 'web-game-rabbitmq'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
   game-consul-discovery:
     image: consul:1.8.4
