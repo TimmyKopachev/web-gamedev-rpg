@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.access.vote.RoleVoter;
@@ -101,7 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth").permitAll() //?
                 .antMatchers("/sign-in").permitAll()
                 .antMatchers("/sign-up").permitAll()
-                .antMatchers("/refresh-token").permitAll()
+                .antMatchers(HttpMethod.POST,"/refresh-token").permitAll()
                 .antMatchers("/authenticated/**").authenticated()
                 .antMatchers("/sign-out/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")

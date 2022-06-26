@@ -48,9 +48,7 @@ public class AuthController {
 
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshRequest request) {
-        CustomUserDetails userDetails = CustomSecurityContextHolder.getCurrentCustomUserDetails();
-        return ResponseEntity.ok().body(userService.refreshToken(request.getRefreshToken(), userDetails));
-
+        return ResponseEntity.ok().body(userService.refreshToken(request.getRefreshToken()));
     }
 
 

@@ -16,7 +16,7 @@ public interface UserService {
 
     MessageResponse signOut(Long userId);
 
-    TokenRefreshResponse refreshToken(String refreshToken, CustomUserDetails userDetails);
+    TokenRefreshResponse refreshToken(String refreshToken);
 
     boolean isUserExist(UserDto userDto);
 

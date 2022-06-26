@@ -105,13 +105,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public TokenRefreshResponse refreshToken(String refreshToken, CustomUserDetails userDetails) {
+    public TokenRefreshResponse refreshToken(String refreshToken) {
         return refreshTokenService.findByToken(refreshToken)
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshTokenEntity::getUser)
                 .map(user -> {
                     final RefreshTokenEntity refreshTokenEntity = refreshTokenService.createRefreshToken(user.getId());
-                    final String jwt = jwtTokenUtil.generateToken(userDetails);
+                    final String jwt = jwtTokenUtil.generateToken(userDetailsMapper.getUserDetailsFromUserEntity(user));
                     return new TokenRefreshResponse(jwt, refreshTokenEntity.getToken());
                 })
                 .orElseThrow(() -> new TokenRefreshException(refreshToken,
