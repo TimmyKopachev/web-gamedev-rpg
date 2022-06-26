@@ -14,3 +14,11 @@ spring:
       host: localhost
       port: 8500
   output.ansi.enabled: ALWAYS
+
+
+game:
+  amqp:
+    matchmaking:
+      queue: matchmaking
+      exchange: matchmaking.exchange
+      routingkey: matchmaking.routing.key
