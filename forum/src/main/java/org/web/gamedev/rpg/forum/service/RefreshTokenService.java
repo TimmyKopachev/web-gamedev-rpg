@@ -51,7 +51,9 @@ public class RefreshTokenService {
     }
 
     public RefreshTokenEntity verifyExpiration(RefreshTokenEntity token) {
-        if (token.getExpirationDate().isBefore(new Date().toInstant())) {
+        Date now = Date.from(LocalDateTime.now()
+                .toInstant(ZoneOffset.UTC));
+        if (token.getExpirationDate().isBefore(now.toInstant())) {
             throw new TokenRefreshException(token.getToken(), TokenRefreshException.MESSAGE_REFRESH_TOKEN_EXPIRED);
         }
         return token;
