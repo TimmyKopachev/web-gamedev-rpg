@@ -1,0 +1,19 @@
+server:
+  port: 8083 #${random.int[1024,65535]}
+
+spring:
+  #Application
+  application:
+    name: auth-security
+
+  output.ansi.enabled: ALWAYS
+
+#  #Discovery
+#  cloud:
+#    consul:
+#      host: localhost
+#      port: 8500
+
+
+
+

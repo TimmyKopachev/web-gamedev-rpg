@@ -11,6 +11,7 @@
         <module>lobby</module>
         <module>model-common</module>
         <module>friend</module>
+        <module>auth-security</module>
     </modules>
 
     <parent>
