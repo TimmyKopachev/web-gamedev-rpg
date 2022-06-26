@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.springframework.util.StringUtils.hasText;
+
 
 @Service
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -34,27 +36,27 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
         String username = null;
-
-        String jwt = null;
-
-        if (authHeader != null && authHeader.startsWith(BEARER)) {
-            jwt = authHeader.substring(BEARER.length());
-            try {
-                username = jwtTokenUtil.getUsernameFromToken(jwt);
-            } catch (Exception ex) {
-                System.out.println("Token is invalid " + ex.getMessage());
-            }
+        String token = getTokenFromRequest(request);
+        if (token != null && jwtTokenUtil.validateToken(token)) {
+            username = jwtTokenUtil.getUsernameFromToken(token);
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
-            if (jwtTokenUtil.validateToken(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(token);
+            if (jwtTokenUtil.validateToken(token, userDetails)) {
+                UsernamePasswordAuthenticationToken upaToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(upaToken);
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    private String getTokenFromRequest(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith(BEARER)) {
+            return authHeader.substring(BEARER.length());
+        }
+        return null;
     }
 }
