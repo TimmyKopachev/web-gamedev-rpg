@@ -1,0 +1,16 @@
+server:
+  contextPath: /
+  port: 8087 #${random.int[1024,65535]}
+
+
+spring:
+  #Application
+  application:
+    name: lobby
+
+  #Discovery
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+  output.ansi.enabled: ALWAYS
