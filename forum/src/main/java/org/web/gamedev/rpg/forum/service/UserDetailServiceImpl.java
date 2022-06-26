@@ -29,7 +29,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByUsernameWithRoles(username).orElseThrow(() -> {
             log.error("CustomUserDetailsService.loadUserByUsername() user not found");
-            return new UsernameNotFoundException("User not found");
+            return new UsernameNotFoundException("User not found: " + username);
         });
         CustomUserDetails userDetails = userDetailsMapper.getUserDetailsFromUserEntity(userEntity);
         List<GrantedAuthority> authorities = userEntity.getRoles().stream().map(role ->

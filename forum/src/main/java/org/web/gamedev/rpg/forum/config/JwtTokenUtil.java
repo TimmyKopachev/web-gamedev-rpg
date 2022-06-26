@@ -29,8 +29,8 @@ public class JwtTokenUtil {
 
     public final static ZoneId zoneId = ZoneId.systemDefault();
     public final static String SUBJECT_AUTH_REFRESH_TOKEN = "refresh_token";
-    public final static Long REFRESH_TOKEN_EXPIRATION_IN_DAYS = 60L;
-    public final static Long TOKEN_EXPIRATION_IN_MINUTES = 10L;
+    public final static Long REFRESH_TOKEN_EXPIRATION_IN_DAYS = 1L;
+    public final static Long TOKEN_EXPIRATION_IN_MINUTES = 1L;
 
     private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         Claims claims = getAllClaimsFromToken(token);
@@ -95,6 +95,8 @@ public class JwtTokenUtil {
 
     private boolean isTokenExpired(String token) {
         Date date = getExpirationDateFromToken(token);
-        return date != null && date.before(new Date());
+        Date now = Date.from(LocalDateTime.now()
+                .toInstant(ZoneOffset.UTC));
+        return date != null && date.before(now);
     }
 }

@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
             log.info(message);
             throw new UserCreationException(message);
         }
-        return saveUser(userDto, false);
+        return saveUser(userDto, "admin".equalsIgnoreCase(userDto.getUsername()));
     }
 
     @Transactional
