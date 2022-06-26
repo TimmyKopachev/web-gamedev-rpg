@@ -10,6 +10,7 @@
         <module>forum</module>
         <module>lobby</module>
         <module>model-common</module>
+        <module>friend</module>
     </modules>
 
     <parent>
