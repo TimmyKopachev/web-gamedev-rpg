@@ -12,8 +12,6 @@
     <artifactId>forum</artifactId>
 
     <properties>
-        <spring-security.version>5.3.4.RELEASE</spring-security.version>
-        <jjwt-jackson.version>0.11.5</jjwt-jackson.version>
         <mapstruct.version>1.5.1.Final</mapstruct.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
     </properties>
@@ -68,44 +66,8 @@
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-sql</artifactId>
         </dependency>
-        <!-- security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <!-- jwt -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>${jjwt-jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>${jjwt-jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <version>${jjwt-jackson.version}</version>
-        </dependency>
     </dependencies>
 
-   <!-- <profiles>
-        <profile>
-            <id>embed-tomcat</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                    <scope>compile</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>-->
 
     <build>
         <plugins>
