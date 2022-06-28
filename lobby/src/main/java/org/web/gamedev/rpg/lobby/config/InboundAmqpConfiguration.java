@@ -3,10 +3,12 @@ package org.web.gamedev.rpg.lobby.config;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -52,10 +54,22 @@ public class InboundAmqpConfiguration implements InitializingBean {
               BindingBuilder.bind(queue).to(topicExchange).with(amqpProperty.getRoutingKey()));
         });
   }
+/*
 
   @Bean
   CustomDeserializer<?> deserializer() {
     return new CustomDeserializer<>(SearchingMatchmakingRequest.class);
+  }
+*/
+
+  @Bean
+  public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
+      ConnectionFactory connectionFactory) {
+    SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+    factory.setConnectionFactory(connectionFactory);
+    factory.setMessageConverter(new ProtobufMessageConverter());
+    factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
+    return factory;
   }
 
   @Bean
@@ -65,6 +79,7 @@ public class InboundAmqpConfiguration implements InitializingBean {
       CorrelationLobbyAggregationStrategy correlationLobby,
       LobbyAggregationGroupProcessor aggregationGroupProcessor) {
     return IntegrationFlows.from(Amqp.inboundAdapter(connectionFactory, "matchmaking"))
+        //.handle()
         .aggregate(
             aggregatorSpec ->
                 aggregatorSpec

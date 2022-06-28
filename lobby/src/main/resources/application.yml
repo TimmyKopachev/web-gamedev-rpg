@@ -22,3 +22,7 @@ game:
       queue: matchmaking
       exchange: matchmaking.exchange
       routingkey: matchmaking.routing.key
+    group-matchmaking:
+      queue: matchmaking
+      exchange: matchmaking.exchange
+      routingkey: group-matchmaking.routing.key
