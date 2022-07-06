@@ -24,8 +24,6 @@ spring:
             - Path=/forum/**
           filters:
             - RewritePath=/forum/(?<path>.*), /$\{path}
-            - AuthenticationFilter=
-#            type: org.web.gamedev.rpg.gateway.filter.AuthenticationFilter
 
         # lobby mapping
         - id: lobby
