@@ -11,6 +11,8 @@ spring:
       host: localhost
       port: 8500
     gateway:
+      loadbalancer:
+          use404=true:
       discovery:
         locator:
           enabled: true
@@ -22,6 +24,7 @@ spring:
             - Path=/forum/**
           filters:
             - RewritePath=/forum/(?<path>.*), /$\{path}
+
         # lobby mapping
         - id: lobby
           uri: lb://lobby
@@ -29,6 +32,13 @@ spring:
             - Path=/lobby/**
           filters:
             - RewritePath=/lobby/(?<path>.*), /$\{path}
+          # auth-security mapping
+        - id: auth-security
+          uri: lb://auth-security
+          predicates:
+            - Path=/auth-security/**
+          filters:
+            - RewritePath=/auth-security/(?<path>.*), /$\{path}
 
 logging:
   level:

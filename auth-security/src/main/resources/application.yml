@@ -5,15 +5,38 @@ spring:
   #Application
   application:
     name: auth-security
+  main:
+    allow-bean-definition-overriding: true
 
   output.ansi.enabled: ALWAYS
 
-#  #Discovery
-#  cloud:
-#    consul:
-#      host: localhost
-#      port: 8500
+  #Discovery
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
 
+  #Liquibase
+  liquibase:
+    change-log: ${LIQUIBASE_CHANGE_LOG:classpath:auth-service-db-changelog.xml}
+
+  h2:
+    console:
+      enable: true
+      path: /h2-console
+      settings:
+        trace: true
+        web-allow-others: true
+  #JPA
+  datasource:
+    url: jdbc:h2:mem:game-rpg-db;DB_CLOSE_DELAY=-1
+    username: admin
+    password:
+    platform: h2 #added
+
+
+jwt.secret: reallysecretgoldkey123456789011111111qwASSDfffffffffwe21azzFNMzzzzz34fDx5xcCq13fffg29903qllllkjilIlkdf
+jwt.refreshExpirationMs: 3600000 #1000 * 60 * 60
 
 
 
