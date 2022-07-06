@@ -16,8 +16,10 @@ public class MainController {
 
   @GetMapping("/authenticated")
   public String authenticatedPage() {
-    Authentication a = SecurityContextHolder.getContext().getAuthentication();
-    return "secured part of web service: " + a.getName() + a.getAuthorities();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    return String.format(
+        "secured part of web service: %s - %s",
+        authentication.getName(), authentication.getAuthorities());
   }
 
   @GetMapping("/admin")

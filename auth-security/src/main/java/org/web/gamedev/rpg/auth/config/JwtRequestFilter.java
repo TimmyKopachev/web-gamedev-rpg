@@ -17,6 +17,7 @@ import org.web.gamedev.rpg.auth.model.payload.CustomUserDetails;
 @Service
 public class JwtRequestFilter extends OncePerRequestFilter {
   private static final String BEARER = "Bearer ";
+
   @Autowired private JwtTokenUtil jwtTokenUtil;
 
   private UserDetailsService userDetailsService;
@@ -31,29 +32,34 @@ public class JwtRequestFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-    String username = null;
-    String token = getTokenFromRequest(request);
-    if (token != null && jwtTokenUtil.validateToken(token)) {
-      username = jwtTokenUtil.getUsernameFromToken(token);
-    }
 
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-      CustomUserDetails userDetails =
-          (CustomUserDetails) userDetailsService.loadUserByUsername(username);
-      if (jwtTokenUtil.validateToken(token, userDetails)) {
-        UsernamePasswordAuthenticationToken upaToken =
-            new UsernamePasswordAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(upaToken);
+    String token = getTokenFromRequest(request);
+
+    if (token != null && jwtTokenUtil.validateToken(token)) {
+      var username = jwtTokenUtil.getUsernameFromToken(token);
+
+      if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        CustomUserDetails userDetails =
+            (CustomUserDetails) userDetailsService.loadUserByUsername(username);
+        if (jwtTokenUtil.validateToken(token, userDetails)) {
+          UsernamePasswordAuthenticationToken upaToken =
+              new UsernamePasswordAuthenticationToken(
+                  userDetails, null, userDetails.getAuthorities());
+          SecurityContextHolder.getContext().setAuthentication(upaToken);
+        }
       }
     }
+
     filterChain.doFilter(request, response);
   }
 
   private String getTokenFromRequest(HttpServletRequest request) {
     String authHeader = request.getHeader("Authorization");
-    if (authHeader != null && authHeader.startsWith(BEARER)) {
-      return authHeader.substring(BEARER.length());
+    if (authHeader != null) {
+      String[] tokens = authHeader.trim().split("\\s+");
+      if (tokens.length == 2 && BEARER.equalsIgnoreCase(tokens[0])) {
+        return tokens[1];
+      }
     }
     return null;
   }

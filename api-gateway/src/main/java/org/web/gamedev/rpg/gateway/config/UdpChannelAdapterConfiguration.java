@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Configuration
 @AllArgsConstructor
-public class UdpChannelAdapterConfig {
+public class UdpChannelAdapterConfiguration {
 
   final UdpGameMessageHandler udpGameMessageHandler;
 

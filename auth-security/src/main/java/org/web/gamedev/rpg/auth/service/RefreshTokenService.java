@@ -1,7 +1,6 @@
 package org.web.gamedev.rpg.auth.service;
 
 import static org.web.gamedev.rpg.auth.config.JwtTokenUtil.REFRESH_TOKEN_EXPIRATION_IN_DAYS;
-import static org.web.gamedev.rpg.auth.config.JwtTokenUtil.SUBJECT_AUTH_REFRESH_TOKEN;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -52,10 +51,7 @@ public class RefreshTokenService {
     refreshTokenEntity.setExpirationDate(expiredDate);
     refreshTokenEntity.setToken(
         jwtTokenUtil.generateRefreshToken(
-            Date.from(issuedDate),
-            Date.from(expiredDate),
-            SUBJECT_AUTH_REFRESH_TOKEN,
-            userId.toString()));
+            Date.from(issuedDate), Date.from(expiredDate), userId.toString()));
     refreshTokenEntity = refreshTokenRepository.save(refreshTokenEntity);
     return refreshTokenEntity;
   }

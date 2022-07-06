@@ -1,10 +1,11 @@
 package org.web.gamedev.rpg.auth.config;
 
-import java.util.Arrays;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
@@ -24,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-  public static final int TWO_WEEKS = 86400;
+
   public static final String ROLE_PREFIX = "ROLE_";
 
   @Autowired
@@ -33,44 +34,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired private JwtRequestFilter jwtRequestFilter;
 
-  @Bean("passwordEncoder")
-  public PasswordEncoder encoder() {
+  @Bean
+  public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
-  @Bean("roleVoter")
-  public RoleVoter getRoleVoter() {
+  @Bean
+  public RoleVoter roleVoter() {
     RoleVoter roleVoter = new RoleVoter();
-    roleVoter.setRolePrefix(ROLE_PREFIX); // set roles as it's from Services/DAO/DB
+    roleVoter.setRolePrefix(ROLE_PREFIX);
     return roleVoter;
   }
 
-  // https://docs.spring.io/spring-security/site/docs/4.2.4.RELEASE/apidocs/org/springframework/security/access/vote/AuthenticatedVoter.html
-  @Bean("authenticatedVoter")
-  public AuthenticatedVoter getAuthenticatedVoter() {
+  @Bean
+  public AuthenticatedVoter authenticatedVoter() {
     return new AuthenticatedVoter();
   }
 
-  @Bean("accessDecisionManager")
-  public AffirmativeBased getAccessDecisionManager(
+  @Bean
+  public AffirmativeBased accessDecisionManager(
       RoleVoter roleVoter, AuthenticatedVoter authenticatedVoter) {
-    AffirmativeBased accessDecisionManager =
-        new AffirmativeBased(Arrays.asList(roleVoter, authenticatedVoter));
-    accessDecisionManager.getDecisionVoters();
-    return accessDecisionManager;
+    return new AffirmativeBased(List.of(roleVoter, authenticatedVoter));
   }
 
-  @Bean("webSecurityExpressionHandler")
-  // use the same name as spring boot has: localhost:8080/actuator/beans to override it by own
-  public DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler() {
-    DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler =
-        new DefaultWebSecurityExpressionHandler();
+  @Bean
+  @Primary
+  public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
+    var defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
     defaultWebSecurityExpressionHandler.setDefaultRolePrefix(ROLE_PREFIX);
     return defaultWebSecurityExpressionHandler;
   }
 
   @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+  protected void configure(AuthenticationManagerBuilder auth) {
     auth.authenticationProvider(userDetailsAuthenticationProvider);
   }
 
@@ -90,7 +86,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.httpBasic().disable();
     http.headers().frameOptions().disable();
     http.authorizeRequests()
-        // .antMatchers("/h2-console/**").permitAll()
         .antMatchers("/error*")
         .permitAll()
         .antMatchers("/login*")
